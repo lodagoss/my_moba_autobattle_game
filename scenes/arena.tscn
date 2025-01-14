@@ -1,0 +1,203 @@
+[gd_scene load_steps=16 format=3 uid="uid://bd4pmp0uado01"]
+
+[ext_resource type="PackedScene" uid="uid://dxgiiwuwh1nx3" path="res://scenes/base.tscn" id="1_2lsjb"]
+[ext_resource type="Script" path="res://scenes/arena.gd" id="1_mwils"]
+[ext_resource type="Resource" uid="uid://cj0wgk5b7asry" path="res://resources/default_balance.tres" id="2_jaewx"]
+[ext_resource type="PackedScene" uid="uid://bbp3110sfsbmq" path="res://scenes/tower.tscn" id="2_octtb"]
+[ext_resource type="PackedScene" uid="uid://cmqeq7s64m0o6" path="res://scenes/hero.tscn" id="3_bn1uv"]
+[ext_resource type="Texture2D" uid="uid://bl6rs3700ovob" path="res://resources/王者荣耀地图.jpg" id="4_bxblq"]
+[ext_resource type="Script" path="res://scripts/systems/selection_system.gd" id="4_irg45"]
+[ext_resource type="Script" path="res://scripts/systems/creep_line.gd" id="5_ryre2"]
+[ext_resource type="Texture2D" uid="uid://dl8b45ye1b105" path="res://resources/creep_line.svg" id="6_68cx4"]
+
+[sub_resource type="Gradient" id="Gradient_80e7v"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.720779)
+colors = PackedColorArray(0.1862, 0.49, 0.484937, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pm2uv"]
+gradient = SubResource("Gradient_80e7v")
+width = 1080
+height = 1080
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Curve2D" id="Curve2D_ar3yc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 97, 981, 0, 0, 0, 0, 209, 873, 0, 0, 0, 0, 416, 643, 0, 0, 0, 0, 662, 450, 0, 0, 0, 0, 866, 214, 0, 0, 0, 0, 967, 105)
+}
+point_count = 6
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_block"]
+radius = 20.0
+
+[sub_resource type="Curve2D" id="Curve2D_top"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 97, 978, 0, 0, 0, 0, 54, 800, 0, 0, 0, -170, 31, 330, -170, 0, 0, 0, 318, 41, 0, 0, 0, 0, 802, 52, 0, 0, 0, 0, 971, 106)
+}
+point_count = 6
+
+[sub_resource type="Curve2D" id="Curve2D_bot"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 99, 982, 0, 0, 0, 0, 284, 1039, 0, 0, 100, 0, 813, 1046, 0, 100, 0, 0, 1034, 814, 0, 0, 0, 0, 1032, 281, 0, 0, 0, 0, 969, 103)
+}
+point_count = 6
+
+[node name="Arena" type="Node2D" groups=["arena"]]
+script = ExtResource("1_mwils")
+game_balance = ExtResource("2_jaewx")
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Ground" type="Sprite2D" parent="Background"]
+z_index = -2
+texture = SubResource("GradientTexture2D_pm2uv")
+centered = false
+
+[node name="Units" type="Node2D" parent="."]
+
+[node name="TeamLeft" type="Node2D" parent="Units"]
+
+[node name="Base" parent="Units/TeamLeft" instance=ExtResource("1_2lsjb")]
+position = Vector2(100, 980)
+unit_type = 2
+
+[node name="TowerMid1" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
+position = Vector2(416, 646)
+unit_type = 1
+
+[node name="TowerMid2" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
+position = Vector2(209, 874)
+unit_type = 1
+
+[node name="TowerTop1" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
+position = Vector2(34, 331)
+unit_type = 1
+
+[node name="TowerTop2" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
+position = Vector2(55, 803)
+unit_type = 1
+
+[node name="TowerBot1" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
+position = Vector2(810, 1046)
+unit_type = 1
+
+[node name="TowerBot2" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
+position = Vector2(284, 1041)
+unit_type = 1
+
+[node name="Hero" parent="Units/TeamLeft" instance=ExtResource("3_bn1uv")]
+position = Vector2(264, 822)
+
+[node name="王者荣耀地图" type="Sprite2D" parent="Units/TeamLeft"]
+modulate = Color(1, 1, 1, 0.14902)
+z_index = -1
+position = Vector2(540, 539)
+scale = Vector2(1.58728, 1.58728)
+texture = ExtResource("4_bxblq")
+
+[node name="TeamRight" type="Node2D" parent="Units"]
+
+[node name="Base" parent="Units/TeamRight" instance=ExtResource("1_2lsjb")]
+position = Vector2(971, 106)
+team = 1
+unit_type = 2
+
+[node name="TowerMid1" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
+position = Vector2(664, 452)
+team = 1
+unit_type = 1
+
+[node name="TowerMid2" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
+position = Vector2(868, 217)
+team = 1
+unit_type = 1
+
+[node name="TowerTop1" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
+position = Vector2(318, 43)
+team = 1
+unit_type = 1
+
+[node name="TowerTop2" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
+position = Vector2(800, 54)
+team = 1
+unit_type = 1
+
+[node name="TowerBot1" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
+position = Vector2(1033, 819)
+team = 1
+unit_type = 1
+
+[node name="TowerBot2" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
+position = Vector2(1032, 286)
+team = 1
+unit_type = 1
+
+[node name="Hero" parent="Units/TeamRight" instance=ExtResource("3_bn1uv")]
+position = Vector2(719, 375)
+team = 1
+
+[node name="Systems" type="Node2D" parent="."]
+
+[node name="SelectionSystem" type="Node" parent="Systems"]
+script = ExtResource("4_irg45")
+
+[node name="CreepLineMid" type="Path2D" parent="Systems"]
+curve = SubResource("Curve2D_ar3yc")
+script = ExtResource("5_ryre2")
+
+[node name="LineFollow" type="PathFollow2D" parent="Systems/CreepLineMid"]
+position = Vector2(617.594, 484.839)
+rotation = -0.665251
+progress = 721.249
+
+[node name="LineSprite" type="Sprite2D" parent="Systems/CreepLineMid/LineFollow"]
+rotation = 0.785505
+scale = Vector2(0.18263, 0.18263)
+texture = ExtResource("6_68cx4")
+
+[node name="BlockDetector" type="Area2D" parent="Systems/CreepLineMid/LineFollow"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/CreepLineMid/LineFollow/BlockDetector"]
+shape = SubResource("CircleShape2D_block")
+
+[node name="CreepLineTop" type="Path2D" parent="Systems"]
+curve = SubResource("Curve2D_top")
+script = ExtResource("5_ryre2")
+
+[node name="LineFollow" type="PathFollow2D" parent="Systems/CreepLineTop"]
+position = Vector2(113.386, 119.126)
+rotation = -0.775854
+progress = 886.255
+
+[node name="LineSprite" type="Sprite2D" parent="Systems/CreepLineTop/LineFollow"]
+scale = Vector2(0.18263, 0.18263)
+texture = ExtResource("6_68cx4")
+
+[node name="BlockDetector" type="Area2D" parent="Systems/CreepLineTop/LineFollow"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/CreepLineTop/LineFollow/BlockDetector"]
+shape = SubResource("CircleShape2D_block")
+
+[node name="CreepLineBot" type="Path2D" parent="Systems"]
+curve = SubResource("Curve2D_bot")
+script = ExtResource("5_ryre2")
+
+[node name="LineFollow" type="PathFollow2D" parent="Systems/CreepLineBot"]
+position = Vector2(961.341, 967.136)
+rotation = -0.818057
+progress = 895.029
+
+[node name="LineSprite" type="Sprite2D" parent="Systems/CreepLineBot/LineFollow"]
+scale = Vector2(0.18263, 0.18263)
+texture = ExtResource("6_68cx4")
+
+[node name="BlockDetector" type="Area2D" parent="Systems/CreepLineBot/LineFollow"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Systems/CreepLineBot/LineFollow/BlockDetector"]
+shape = SubResource("CircleShape2D_block")
+
+[node name="FountainLeft" type="Marker2D" parent="."]
+position = Vector2(39, 1042)
+
+[node name="FountainRight" type="Marker2D" parent="."]
+position = Vector2(1029, 49)

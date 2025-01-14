@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://cmqeq7s64m0o6"]
+
+[ext_resource type="Script" path="res://scripts/units/unit.gd" id="1_3mk5s"]
+[ext_resource type="Texture2D" uid="uid://brho74glkqysv" path="res://resources/hero.svg" id="1_4vd6s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j7wcg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8etyk"]
+bg_color = Color(1, 1, 1, 0.333333)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s56jj"]
+bg_color = Color(0.137233, 0.926006, 0.489848, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pkuth"]
+
+[node name="Hero" type="CharacterBody2D" groups=["Hero"]]
+script = ExtResource("1_3mk5s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(174, 62)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_4vd6s")
+offset = Vector2(-696, -248)
+
+[node name="CollisionAera" type="CollisionShape2D" parent="."]
+scale = Vector2(2.2, 2.2)
+shape = SubResource("CircleShape2D_j7wcg")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -21.0
+offset_top = -37.0
+offset_right = 23.0
+offset_bottom = -29.0
+theme_override_styles/background = SubResource("StyleBoxFlat_8etyk")
+theme_override_styles/fill = SubResource("StyleBoxFlat_s56jj")
+value = 100.0
+show_percentage = false
+
+[node name="AttackArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_pkuth")
+
+[node name="RangeIndicator" type="Node2D" parent="."]

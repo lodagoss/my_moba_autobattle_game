@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="GameBalance" load_steps=2 format=3 uid="uid://cj0wgk5b7asry"]
+
+[ext_resource type="Script" path="res://resources/game_balance.gd" id="1_u4r2p"]
+
+[resource]
+resource_name = "GameBalance"
+script = ExtResource("1_u4r2p")
+show_attack_range_indicator = true
+tower_attack_range = 120.0
+tower_attack_damage = 50.0
+tower_attack_speed = 1.0
+tower_max_health = 1000.0
+hero_attack_range = 100.0
+hero_attack_damage = 65.0
+hero_attack_speed = 1.2
+hero_max_health = 800.0
+hero_move_speed = 200.0
+hero_respawn_time = 2.0
+base_max_health = 2000.0
+creep_line_hero_push_force = 0.1
+creep_line_tower_push_force = 0.1
+creep_line_max_velocity = 0.1
+creep_line_max_acceleration = 0.01
+creep_line_force_to_acceleration_factor = 0.1

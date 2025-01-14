@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbp3110sfsbmq"]
+
+[ext_resource type="Script" path="res://scripts/units/unit.gd" id="1_h4453"]
+[ext_resource type="Texture2D" uid="uid://bu555n65vdytb" path="res://resources/tower.svg" id="1_ot30s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_udijp"]
+size = Vector2(68, 33)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rjcft"]
+bg_color = Color(1, 1, 1, 0.333333)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rvxsq"]
+bg_color = Color(0.137233, 0.926006, 0.489848, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yh2p7"]
+
+[node name="Tower" type="CharacterBody2D" groups=["Building"]]
+script = ExtResource("1_h4453")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.209051, 0.337)
+texture = ExtResource("1_ot30s")
+offset = Vector2(3.85757, -4.15431)
+
+[node name="CollisionAera" type="CollisionShape2D" parent="."]
+position = Vector2(1, 16)
+scale = Vector2(0.492156, 0.993597)
+shape = SubResource("RectangleShape2D_udijp")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -34.0
+offset_top = -52.0
+offset_right = 34.0
+offset_bottom = -44.0
+theme_override_styles/background = SubResource("StyleBoxFlat_rjcft")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rvxsq")
+value = 100.0
+show_percentage = false
+
+[node name="AttackArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_yh2p7")
+
+[node name="RangeIndicator" type="Node2D" parent="."]
