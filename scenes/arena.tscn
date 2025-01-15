@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://bd4pmp0uado01"]
 
-[ext_resource type="PackedScene" uid="uid://dxgiiwuwh1nx3" path="res://scenes/base.tscn" id="1_2lsjb"]
+[ext_resource type="PackedScene" uid="uid://dxgiiwuwh1nx3" path="res://scenes/base_building.tscn" id="1_2lsjb"]
 [ext_resource type="Script" path="res://scenes/arena.gd" id="1_mwils"]
 [ext_resource type="Resource" uid="uid://cj0wgk5b7asry" path="res://resources/default_balance.tres" id="2_jaewx"]
 [ext_resource type="PackedScene" uid="uid://bbp3110sfsbmq" path="res://scenes/tower.tscn" id="2_octtb"]
@@ -59,7 +59,6 @@ centered = false
 
 [node name="Base" parent="Units/TeamLeft" instance=ExtResource("1_2lsjb")]
 position = Vector2(100, 980)
-unit_type = 2
 
 [node name="TowerMid1" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
 position = Vector2(416, 646)
@@ -100,7 +99,6 @@ texture = ExtResource("4_bxblq")
 [node name="Base" parent="Units/TeamRight" instance=ExtResource("1_2lsjb")]
 position = Vector2(971, 106)
 team = 1
-unit_type = 2
 
 [node name="TowerMid1" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
 position = Vector2(664, 452)
@@ -165,7 +163,7 @@ curve = SubResource("Curve2D_top")
 script = ExtResource("5_ryre2")
 
 [node name="LineFollow" type="PathFollow2D" parent="Systems/CreepLineTop"]
-position = Vector2(113.386, 119.126)
+position = Vector2(113.387, 119.126)
 rotation = -0.775854
 progress = 886.255
 
@@ -183,8 +181,8 @@ curve = SubResource("Curve2D_bot")
 script = ExtResource("5_ryre2")
 
 [node name="LineFollow" type="PathFollow2D" parent="Systems/CreepLineBot"]
-position = Vector2(961.341, 967.136)
-rotation = -0.818057
+position = Vector2(961.342, 967.136)
+rotation = -0.818058
 progress = 895.029
 
 [node name="LineSprite" type="Sprite2D" parent="Systems/CreepLineBot/LineFollow"]
