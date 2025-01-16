@@ -48,6 +48,13 @@ game_balance = ExtResource("2_jaewx")
 
 [node name="Background" type="Node2D" parent="."]
 
+[node name="王者荣耀地图" type="Sprite2D" parent="Background"]
+modulate = Color(1, 1, 1, 0.14902)
+z_index = -1
+position = Vector2(540, 539)
+scale = Vector2(1.58728, 1.58728)
+texture = ExtResource("4_bxblq")
+
 [node name="Ground" type="Sprite2D" parent="Background"]
 z_index = -2
 texture = SubResource("GradientTexture2D_pm2uv")
@@ -62,77 +69,58 @@ position = Vector2(100, 980)
 
 [node name="TowerMid1" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
 position = Vector2(416, 646)
-unit_type = 1
 
 [node name="TowerMid2" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
 position = Vector2(209, 874)
-unit_type = 1
 
 [node name="TowerTop1" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
 position = Vector2(34, 331)
-unit_type = 1
 
 [node name="TowerTop2" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
 position = Vector2(55, 803)
-unit_type = 1
 
 [node name="TowerBot1" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
 position = Vector2(810, 1046)
-unit_type = 1
 
 [node name="TowerBot2" parent="Units/TeamLeft" instance=ExtResource("2_octtb")]
 position = Vector2(284, 1041)
-unit_type = 1
 
 [node name="Hero" parent="Units/TeamLeft" instance=ExtResource("3_bn1uv")]
 position = Vector2(264, 822)
-
-[node name="王者荣耀地图" type="Sprite2D" parent="Units/TeamLeft"]
-modulate = Color(1, 1, 1, 0.14902)
-z_index = -1
-position = Vector2(540, 539)
-scale = Vector2(1.58728, 1.58728)
-texture = ExtResource("4_bxblq")
 
 [node name="TeamRight" type="Node2D" parent="Units"]
 
 [node name="Base" parent="Units/TeamRight" instance=ExtResource("1_2lsjb")]
 position = Vector2(971, 106)
-team = 1
+team = "right"
 
 [node name="TowerMid1" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
 position = Vector2(664, 452)
-team = 1
-unit_type = 1
+team = "right"
 
 [node name="TowerMid2" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
 position = Vector2(868, 217)
-team = 1
-unit_type = 1
+team = "right"
 
 [node name="TowerTop1" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
 position = Vector2(318, 43)
-team = 1
-unit_type = 1
+team = "right"
 
 [node name="TowerTop2" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
 position = Vector2(800, 54)
-team = 1
-unit_type = 1
+team = "right"
 
 [node name="TowerBot1" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
 position = Vector2(1033, 819)
-team = 1
-unit_type = 1
+team = "right"
 
 [node name="TowerBot2" parent="Units/TeamRight" instance=ExtResource("2_octtb")]
 position = Vector2(1032, 286)
-team = 1
-unit_type = 1
+team = "right"
 
 [node name="Hero" parent="Units/TeamRight" instance=ExtResource("3_bn1uv")]
 position = Vector2(719, 375)
-team = 1
+team = "right"
 
 [node name="Systems" type="Node2D" parent="."]
 

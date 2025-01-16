@@ -1,7 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmqeq7s64m0o6"]
+[gd_scene load_steps=13 format=3 uid="uid://cmqeq7s64m0o6"]
 
-[ext_resource type="Script" path="res://scripts/units/unit.gd" id="1_3mk5s"]
 [ext_resource type="Texture2D" uid="uid://brho74glkqysv" path="res://resources/hero.svg" id="1_4vd6s"]
+[ext_resource type="Script" path="res://scripts/units/hero.gd" id="1_dhb1s"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_7fo26"]
+[ext_resource type="Script" path="res://scripts/components/team_component.gd" id="4_o573e"]
+[ext_resource type="Script" path="res://scripts/components/combat_component.gd" id="5_mriuu"]
+[ext_resource type="Script" path="res://scripts/components/movement_component.gd" id="6_3xmmy"]
+[ext_resource type="Script" path="res://scripts/components/respawn_component.gd" id="7_1eyp5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j7wcg"]
 
@@ -13,8 +18,10 @@ bg_color = Color(0.137233, 0.926006, 0.489848, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pkuth"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_oob3i"]
+
 [node name="Hero" type="CharacterBody2D" groups=["Hero"]]
-script = ExtResource("1_3mk5s")
+script = ExtResource("1_dhb1s")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(174, 62)
@@ -42,3 +49,23 @@ show_percentage = false
 shape = SubResource("CircleShape2D_pkuth")
 
 [node name="RangeIndicator" type="Node2D" parent="."]
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_7fo26")
+
+[node name="TeamComponent" type="Node" parent="."]
+script = ExtResource("4_o573e")
+
+[node name="CombatComponent" type="Node" parent="."]
+script = ExtResource("5_mriuu")
+
+[node name="AttackArea" type="Area2D" parent="CombatComponent"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatComponent/AttackArea"]
+shape = SubResource("CircleShape2D_oob3i")
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("6_3xmmy")
+
+[node name="RespawnComponent" type="Node" parent="."]
+script = ExtResource("7_1eyp5")

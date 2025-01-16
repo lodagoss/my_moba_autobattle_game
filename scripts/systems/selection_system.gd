@@ -5,8 +5,7 @@
 
 class_name SelectionSystem extends Node
 
-const UnitScript = preload("res://scripts/units/unit.gd")  # 预加载 Unit 脚本
-var selected_unit: Unit = null
+var selected_unit: Node2D = null
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -26,10 +25,13 @@ func handle_selection(click_position: Vector2) -> void:
 	var result = space.intersect_point(query)
 	if result.size() > 0:
 		var clicked_object = result[0].collider
-		if clicked_object is Unit and clicked_object.is_in_group("Hero"):
-			selected_unit = clicked_object
-			# 可以添加选中效果
+		if clicked_object is Node2D and clicked_object.is_in_group("Hero"):
+			if selected_unit != clicked_object:
+				if selected_unit:
+					GameEvents.unit_deselected.emit(selected_unit)
+				selected_unit = clicked_object
+				GameEvents.unit_selected.emit(selected_unit)
 
 func handle_movement(target_position: Vector2) -> void:
-	if selected_unit:
+	if selected_unit and selected_unit.has_method("move_to"):
 		selected_unit.move_to(target_position)  # 不需要调整目标位置，因为移动系统使用的是全局坐标

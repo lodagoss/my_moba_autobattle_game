@@ -8,15 +8,19 @@ signal attack_completed(target: Node2D)
 @export var attack_damage: float = 10.0
 @export var attack_range: float = 100.0
 @export var attack_speed: float = 1.0  # 每秒攻击次数
-@export var team: String = "left"  # 队伍标识，可以是 "left" 或 "right"
 
 var target: Node2D = null
 var can_attack: bool = true
 @onready var attack_area: Area2D = $AttackArea
+@onready var team_comp: TeamComponent = $"../TeamComponent"
 
 func _ready() -> void:
 	if not attack_area:
 		push_error("CombatComponent需要一个名为AttackArea的Area2D子节点")
+		return
+		
+	if not team_comp:
+		push_error("CombatComponent需要一个同级的TeamComponent节点")
 		return
 		
 	# 设置攻击范围
@@ -47,12 +51,7 @@ func _physics_process(_delta: float) -> void:
 		perform_attack()
 
 func can_attack_target(potential_target: Node2D) -> bool:
-	# 使用组来判断敌我关系
-	if potential_target.is_in_group("left_team") and team == "right":
-		return true
-	if potential_target.is_in_group("right_team") and team == "left":
-		return true
-	return false
+	return team_comp.is_enemy(potential_target)
 
 func set_target(new_target: Node2D) -> void:
 	if target == new_target:

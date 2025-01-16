@@ -3,12 +3,15 @@
 # 2. 添加以下子节点：
 #    - Sprite2D
 #    - CollisionShape2D
-#    - HealthComponent（配置 max_health 为 game_balance.base_max_health）
+#    - HealthComponent（配置 max_health 为 game_balance.tower_max_health）
 #    - TeamComponent（配置 team 为 "left" 或 "right"）
+#    - CombatComponent（配置 attack_range 为 game_balance.tower_attack_range，
+#                     attack_damage 为 game_balance.tower_attack_damage，
+#                     attack_speed 为 game_balance.tower_attack_speed）
 #    - HealthBar (ProgressBar)
 # 3. 将节点添加到 "Building" 组
 
-class_name BaseBuilding extends StaticBody2D
+class_name Tower extends StaticBody2D
 
 # 团队组件属性
 @export_enum("left", "right") var team: String = "left"
@@ -16,6 +19,7 @@ class_name BaseBuilding extends StaticBody2D
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var health_comp: HealthComponent = $HealthComponent
 @onready var team_comp: TeamComponent = $TeamComponent
+@onready var combat_comp: CombatComponent = $CombatComponent
 
 func _ready() -> void:
 	# 添加到建筑组
@@ -24,11 +28,14 @@ func _ready() -> void:
 	# 设置组件属性
 	team_comp.team = team
 	
-	# 从游戏配置中获取基地最大生命值
+	# 从游戏配置中获取防御塔属性
 	var arena = get_tree().get_first_node_in_group("arena")
 	if arena and "game_balance" in arena:
 		var game_balance = arena.game_balance
-		health_comp.max_health = game_balance.base_max_health
+		health_comp.max_health = game_balance.tower_max_health
+		combat_comp.attack_range = game_balance.tower_attack_range
+		combat_comp.attack_damage = game_balance.tower_attack_damage
+		combat_comp.attack_speed = game_balance.tower_attack_speed
 	
 	# 连接信号
 	health_comp.health_changed.connect(_on_health_changed)
@@ -51,11 +58,6 @@ func _on_health_changed(new_health: float, old_health: float) -> void:
 func _on_died() -> void:
 	# 发送全局死亡事件
 	GameEvents.unit_died.emit(self)
-	
-	# 基地被摧毁，游戏结束
-	var winner_team := team_comp.get_enemy_team()
-	GameEvents.game_ended.emit(winner_team)
-	print("game ended ", winner_team," has won")
 	
 	# 禁用碰撞和可见性
 	process_mode = Node.PROCESS_MODE_DISABLED

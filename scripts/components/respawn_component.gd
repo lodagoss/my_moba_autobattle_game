@@ -4,7 +4,6 @@ signal respawn_started(respawn_time: float)
 signal respawn_completed()
 
 @export var respawn_time: float = 5.0
-@export var respawn_position: Vector2
 var is_dead: bool = false
 
 func _ready() -> void:
@@ -45,6 +44,27 @@ func enable_other_components() -> void:
 		elif child != self:
 			child.process_mode = PROCESS_MODE_INHERIT
 
+func get_respawn_position() -> Vector2:
+	# 获取团队信息
+	var team_comp := get_node_or_null("../TeamComponent")
+	if not team_comp:
+		push_error("RespawnComponent: 找不到 TeamComponent")
+		return Vector2.ZERO
+	
+	# 获取泉水位置
+	var arena = get_tree().get_first_node_in_group("arena")
+	if not arena:
+		push_error("RespawnComponent: 找不到 arena 节点")
+		return Vector2.ZERO
+		
+	var fountain_name = "FountainLeft" if team_comp.team == "left" else "FountainRight"
+	var fountain = arena.get_node_or_null(fountain_name)
+	if not fountain:
+		push_error("RespawnComponent: 找不到泉水节点：" + fountain_name)
+		return Vector2.ZERO
+		
+	return fountain.global_position
+
 func perform_respawn() -> void:
 	if not is_dead:
 		return
@@ -52,7 +72,7 @@ func perform_respawn() -> void:
 	is_dead = false
 	
 	# 重置位置
-	owner.global_position = respawn_position
+	owner.global_position = get_respawn_position()
 	
 	# 重置生命值
 	var health_comp := get_node_or_null("../HealthComponent")
@@ -69,4 +89,4 @@ func disable() -> void:
 	is_dead = false
 
 func enable() -> void:
-	process_mode = PROCESS_MODE_INHERIT 
+	process_mode = PROCESS_MODE_INHERIT

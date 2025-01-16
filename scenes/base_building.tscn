@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxgiiwuwh1nx3"]
+[gd_scene load_steps=8 format=3 uid="uid://dxgiiwuwh1nx3"]
 
 [ext_resource type="Script" path="res://scripts/units/base_building.gd" id="1_y53rq"]
 [ext_resource type="Texture2D" uid="uid://c042y6vqaemf5" path="res://resources/home.svg" id="2_at5pl"]
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_06mg2"]
+[ext_resource type="Script" path="res://scripts/components/team_component.gd" id="4_lntq0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wasik"]
 size = Vector2(63, 31)
@@ -13,7 +14,7 @@ bg_color = Color(1, 1, 1, 0.333333)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6wg2y"]
 bg_color = Color(0.137233, 0.926006, 0.489848, 1)
 
-[node name="BaseBuilding" type="CharacterBody2D" groups=["Building"]]
+[node name="BaseBuilding" type="StaticBody2D" groups=["Building"]]
 script = ExtResource("1_y53rq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -35,5 +36,8 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_6wg2y")
 value = 100.0
 show_percentage = false
 
-[node name="HealthComponent" type="Node" parent="." groups=["Building"]]
+[node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_06mg2")
+
+[node name="TeamComponent" type="Node" parent="."]
+script = ExtResource("4_lntq0")

@@ -1,7 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbp3110sfsbmq"]
+[gd_scene load_steps=10 format=3 uid="uid://bbp3110sfsbmq"]
 
-[ext_resource type="Script" path="res://scripts/units/unit.gd" id="1_h4453"]
 [ext_resource type="Texture2D" uid="uid://bu555n65vdytb" path="res://resources/tower.svg" id="1_ot30s"]
+[ext_resource type="Script" path="res://scripts/units/tower.gd" id="1_rqyxl"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_lve3j"]
+[ext_resource type="Script" path="res://scripts/components/team_component.gd" id="4_0yi8x"]
+[ext_resource type="Script" path="res://scripts/components/combat_component.gd" id="5_5aakv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_udijp"]
 size = Vector2(68, 33)
@@ -14,8 +17,8 @@ bg_color = Color(0.137233, 0.926006, 0.489848, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yh2p7"]
 
-[node name="Tower" type="CharacterBody2D" groups=["Building"]]
-script = ExtResource("1_h4453")
+[node name="Tower" type="StaticBody2D" groups=["Building"]]
+script = ExtResource("1_rqyxl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.209051, 0.337)
@@ -37,9 +40,18 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_rvxsq")
 value = 100.0
 show_percentage = false
 
-[node name="AttackArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-shape = SubResource("CircleShape2D_yh2p7")
-
 [node name="RangeIndicator" type="Node2D" parent="."]
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_lve3j")
+
+[node name="TeamComponent" type="Node" parent="."]
+script = ExtResource("4_0yi8x")
+
+[node name="CombatComponent" type="Node" parent="."]
+script = ExtResource("5_5aakv")
+
+[node name="AttackArea" type="Area2D" parent="CombatComponent"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatComponent/AttackArea"]
+shape = SubResource("CircleShape2D_yh2p7")

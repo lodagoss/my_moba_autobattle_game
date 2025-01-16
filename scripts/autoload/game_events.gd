@@ -4,31 +4,31 @@
 extends Node
 
 # 战斗事件
-signal unit_damaged(unit: UnitBase, damage: float, source: UnitBase)
-signal unit_healed(unit: UnitBase, amount: float)
-signal unit_died(unit: UnitBase)
-signal unit_respawned(unit: UnitBase)
+signal unit_damaged(unit: Node2D, damage: float, source: Node2D)
+signal unit_healed(unit: Node2D, amount: float)
+signal unit_died(unit: Node2D)
+signal unit_respawned(unit: Node2D)
 
 # 移动事件
-signal unit_started_moving(unit: UnitBase, target: Vector2)
-signal unit_stopped_moving(unit: UnitBase)
+signal unit_started_moving(unit: Node2D, target: Vector2)
+signal unit_stopped_moving(unit: Node2D)
 
 # 技能事件
-signal skill_cast_started(unit: UnitBase, skill_name: String)
-signal skill_cast_ended(unit: UnitBase, skill_name: String)
-signal projectile_hit(projectile: Node, target: UnitBase)
+signal skill_cast_started(unit: Node2D, skill_name: String)
+signal skill_cast_ended(unit: Node2D, skill_name: String)
+signal projectile_hit(projectile: Node, target: Node2D)
 
 # 游戏状态事件
 signal game_paused
 signal game_resumed
-signal game_ended(winner_team: int)
+signal game_ended(winner_team: String)
 
 # 单位选择事件
-signal unit_selected(unit: UnitBase)
-signal unit_deselected(unit: UnitBase)
+signal unit_selected(unit: Node2D)
+signal unit_deselected(unit: Node2D)
 
 # 组件事件
-signal component_added(unit: UnitBase, component: Component)
-signal component_removed(unit: UnitBase, component: Component)
-signal component_enabled(unit: UnitBase, component: Component)
-signal component_disabled(unit: UnitBase, component: Component) 
+signal component_added(unit: Node2D, component: Node)
+signal component_removed(unit: Node2D, component: Node)
+signal component_enabled(unit: Node2D, component: Node)
+signal component_disabled(unit: Node2D, component: Node)

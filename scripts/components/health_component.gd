@@ -1,4 +1,4 @@
-class_name HealthComponent extends Component
+class_name HealthComponent extends Node
 
 signal health_changed(new_health: float, old_health: float)
 signal died()
@@ -6,12 +6,12 @@ signal died()
 @export var max_health: float = 100.0
 var current_health: float
 
-func _on_initialize() -> void:
+func _ready() -> void:
 	current_health = max_health
 
 # 受到伤害
-func take_damage(amount: float, _source: UnitBase = null) -> void:
-	if not is_enabled():
+func take_damage(amount: float, _source: Node2D = null) -> void:
+	if process_mode == PROCESS_MODE_DISABLED:
 		return
 		
 	var old_health := current_health
@@ -25,7 +25,7 @@ func take_damage(amount: float, _source: UnitBase = null) -> void:
 
 # 治疗
 func heal(amount: float) -> void:
-	if not is_enabled():
+	if process_mode == PROCESS_MODE_DISABLED:
 		return
 		
 	var old_health := current_health
@@ -54,4 +54,12 @@ func is_dead() -> bool:
 func reset() -> void:
 	var old_health := current_health
 	current_health = max_health
-	health_changed.emit(current_health, old_health) 
+	health_changed.emit(current_health, old_health)
+
+# 禁用组件
+func disable() -> void:
+	process_mode = PROCESS_MODE_DISABLED
+
+# 启用组件
+func enable() -> void:
+	process_mode = PROCESS_MODE_INHERIT 
