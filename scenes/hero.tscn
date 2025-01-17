@@ -18,7 +18,7 @@ bg_color = Color(0.137233, 0.926006, 0.489848, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pkuth"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_oob3i"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_vvai1"]
 
 [node name="Hero" type="CharacterBody2D" groups=["Hero"]]
 script = ExtResource("1_dhb1s")
@@ -56,16 +56,16 @@ script = ExtResource("3_7fo26")
 [node name="TeamComponent" type="Node" parent="."]
 script = ExtResource("4_o573e")
 
-[node name="CombatComponent" type="Node" parent="."]
-script = ExtResource("5_mriuu")
-
-[node name="AttackArea" type="Area2D" parent="CombatComponent"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatComponent/AttackArea"]
-shape = SubResource("CircleShape2D_oob3i")
-
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("6_3xmmy")
 
 [node name="RespawnComponent" type="Node" parent="."]
 script = ExtResource("7_1eyp5")
+
+[node name="CombatComponent" type="Node2D" parent="."]
+script = ExtResource("5_mriuu")
+
+[node name="AttackArea" type="Area2D" parent="CombatComponent"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatComponent/AttackArea"]
+shape = SubResource("CircleShape2D_vvai1")

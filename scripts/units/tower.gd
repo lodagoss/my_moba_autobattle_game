@@ -33,6 +33,7 @@ func _ready() -> void:
 	if arena and "game_balance" in arena:
 		var game_balance = arena.game_balance
 		health_comp.max_health = game_balance.tower_max_health
+		health_comp.current_health = game_balance.tower_max_health
 		combat_comp.attack_range = game_balance.tower_attack_range
 		combat_comp.attack_damage = game_balance.tower_attack_damage
 		combat_comp.attack_speed = game_balance.tower_attack_speed

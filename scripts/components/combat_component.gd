@@ -1,10 +1,11 @@
-class_name CombatComponent extends Node
+class_name CombatComponent extends Node2D
 
 signal target_acquired(target: Node2D)
 signal target_lost()
 signal attack_started(target: Node2D)
 signal attack_completed(target: Node2D)
 
+@export var auto_attack: bool = true  # 是否自动攻击最近的目标
 @export var attack_damage: float = 10.0
 @export var attack_range: float = 100.0
 @export var attack_speed: float = 1.0  # 每秒攻击次数
@@ -27,31 +28,61 @@ func _ready() -> void:
 	var collision_shape := attack_area.get_node_or_null("CollisionShape2D")
 	if collision_shape and collision_shape.shape is CircleShape2D:
 		collision_shape.shape.radius = attack_range
+	else:
+		push_error("AttackArea缺少CircleShape2D或CollisionShape2D")
 	
 	# 连接信号
 	attack_area.body_entered.connect(_on_body_entered)
 	attack_area.body_exited.connect(_on_body_exited)
+
+func _physics_process(_delta: float) -> void:
+	if process_mode == PROCESS_MODE_DISABLED:
+		return
+		
+	if auto_attack and (not target or not is_instance_valid(target)):
+		find_nearest_target()
+		
+	if target and can_attack:
+		perform_attack()
 
 func _on_body_entered(body: Node2D) -> void:
 	if process_mode == PROCESS_MODE_DISABLED:
 		return
 		
 	if can_attack_target(body):
-		set_target(body)
+		if not auto_attack:
+			set_target(body)
+		elif not target:  # 如果是自动攻击且当前没有目标，寻找最近的目标
+			find_nearest_target()
 
 func _on_body_exited(body: Node2D) -> void:
 	if body == target:
 		clear_target()
-
-func _physics_process(_delta: float) -> void:
-	if process_mode == PROCESS_MODE_DISABLED:
-		return
-		
-	if target and can_attack:
-		perform_attack()
+		if auto_attack:  # 如果目标离开范围，自动寻找新目标
+			find_nearest_target()
 
 func can_attack_target(potential_target: Node2D) -> bool:
+	# 检查目标是否有必要的组件
+	if not potential_target.has_node("TeamComponent") or not potential_target.has_node("HealthComponent"):
+		return false
+	# 检查目标是否是敌人
 	return team_comp.is_enemy(potential_target)
+
+func find_nearest_target() -> void:
+	var bodies := attack_area.get_overlapping_bodies()
+	var nearest_target: Node2D = null
+	var nearest_distance: float = INF
+	var owner_position: Vector2 = get_parent().global_position
+	
+	for body in bodies:
+		if can_attack_target(body):
+			var distance: float = owner_position.distance_squared_to(body.global_position)
+			if distance < nearest_distance:
+				nearest_distance = distance
+				nearest_target = body
+	
+	if nearest_target != target:
+		set_target(nearest_target)
 
 func set_target(new_target: Node2D) -> void:
 	if target == new_target:
@@ -73,9 +104,12 @@ func perform_attack() -> void:
 	can_attack = false
 	attack_started.emit(target)
 	
-	# 对目标造成伤害
-	if target.has_method("take_damage"):
-		target.take_damage(attack_damage)
+	# 获取目标的 HealthComponent
+	var health_comp: HealthComponent = target.get_node_or_null("HealthComponent")
+	if health_comp:
+		health_comp.take_damage(attack_damage, get_parent())
+	else:
+		push_error("目标缺少HealthComponent: " + target.name)
 	
 	attack_completed.emit(target)
 	

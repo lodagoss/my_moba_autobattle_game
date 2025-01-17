@@ -57,6 +57,7 @@ func _ready() -> void:
 	if arena and "game_balance" in arena:
 		var game_balance = arena.game_balance
 		health_comp.max_health = game_balance.hero_max_health
+		health_comp.current_health = game_balance.hero_max_health
 		combat_comp.attack_range = game_balance.hero_attack_range
 		combat_comp.attack_damage = game_balance.hero_attack_damage
 		combat_comp.attack_speed = game_balance.hero_attack_speed

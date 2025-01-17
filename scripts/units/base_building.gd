@@ -29,7 +29,7 @@ func _ready() -> void:
 	if arena and "game_balance" in arena:
 		var game_balance = arena.game_balance
 		health_comp.max_health = game_balance.base_max_health
-	
+		health_comp.current_health = game_balance.base_max_health
 	# 连接信号
 	health_comp.health_changed.connect(_on_health_changed)
 	health_comp.died.connect(_on_died)
