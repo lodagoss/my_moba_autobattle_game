@@ -10,8 +10,7 @@
 
 - **职责**:管理单位的技能列表,处理技能释放
 - **核心技能**:
-  - `melee_attack`: 近战普攻
-  - `range_attack`: 远程普攻
+  - `attack`: 普攻，攻击力、攻击范围、攻击速度、近战还是远程等属性，根据技能拥有者（hero、minion、tower）决定
   - `stun_bolt`: 晕锤技能
 
 #### projectile类
@@ -34,12 +33,11 @@
 
 #### hero类重构
 
-- 改为hero_base类,作为所有英雄的基类
-- 支持动态安装技能
-- 实现两种基础英雄:
-  - `melee_base_hero`: 近战英雄
-  - `range_base_hero`: 远程英雄
-  - 两种英雄都具有stun_bolt技能，区别是一个安装了近战攻击，一个安装了远程攻击。
+- 不再用default_balance.tres设置英雄属性，改为增加一种hero_data类，用于存储英雄的属性、技能（至少有attack技能）、近战还是远程等。
+- 制作两种英雄（也就是创建两个hero_data资源）:
+  - `hero_melee_test`: 近战英雄
+  - `hero_range_test`: 远程英雄
+  - 两种英雄都具有stun_bolt技能，区别是一个安装了近战攻击，一个安装了远程攻击，属性略有差异，比如攻击范围、攻击速度、攻击力等。
 
 ### 1.3 兵线系统重构
 
