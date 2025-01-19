@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="HeroData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/hero_data.gd" id="1_u4r2p"]
+
+[resource]
+script = ExtResource("1_u4r2p")
+hero_name = "近战测试英雄"
+max_health = 1000.0
+move_speed = 180.0
+respawn_time = 2.0
+is_ranged = false
+attack_range = 80.0
+attack_damage = 80.0
+attack_speed = 1.0
+projectile_speed = 0.0
+skill_configs = [{
+"type": "stun_bolt",
+"range": 150.0,
+"damage": 100.0,
+"cooldown": 10.0,
+"stun_duration": 1.5,
+"projectile_speed": 400.0
+}] 

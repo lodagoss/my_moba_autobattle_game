@@ -3,27 +3,27 @@
 # 2. 添加以下子节点：
 #    - Sprite2D
 #    - CollisionShape2D
-#    - HealthComponent（配置 max_health 为 game_balance.hero_max_health）
+#    - HealthComponent
 #    - TeamComponent（配置 team 为 "left" 或 "right"）
-#    - CombatComponent（配置 attack_range 为 game_balance.hero_attack_range，
-#                     attack_damage 为 game_balance.hero_attack_damage，
-#                     attack_speed 为 game_balance.hero_attack_speed）
-#    - MovementComponent（配置 move_speed 为 game_balance.hero_move_speed）
-#    - RespawnComponent（配置 respawn_time 为 game_balance.hero_respawn_time）
+#    - MovementComponent
+#    - RespawnComponent
+#    - SkillComponent
+#    - StatusComponent
 #    - HealthBar (ProgressBar)
 # 3. 将节点添加到 "Hero" 组
 
 class_name Hero extends CharacterBody2D
 
-# 团队组件属性
+@export var hero_data: HeroData
 @export_enum("left", "right") var team: String = "left"
 
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var health_comp: HealthComponent = $HealthComponent
 @onready var team_comp: TeamComponent = $TeamComponent
-@onready var combat_comp: CombatComponent = $CombatComponent
 @onready var movement_comp: MovementComponent = $MovementComponent
 @onready var respawn_comp: RespawnComponent = $RespawnComponent
+@onready var skill_comp: SkillComponent = $SkillComponent
+@onready var status_comp: StatusComponent = $StatusComponent
 
 func _ready() -> void:
 	# 检查必要组件
@@ -36,14 +36,20 @@ func _ready() -> void:
 	if not team_comp:
 		push_error("Hero: 缺少 TeamComponent 节点")
 		return
-	if not combat_comp:
-		push_error("Hero: 缺少 CombatComponent 节点")
-		return
 	if not movement_comp:
 		push_error("Hero: 缺少 MovementComponent 节点")
 		return
 	if not respawn_comp:
 		push_error("Hero: 缺少 RespawnComponent 节点")
+		return
+	if not skill_comp:
+		push_error("Hero: 缺少 SkillComponent 节点")
+		return
+	if not status_comp:
+		push_error("Hero: 缺少 StatusComponent 节点")
+		return
+	if not hero_data:
+		push_error("Hero: 缺少 HeroData 资源")
 		return
 	
 	# 添加到英雄组
@@ -52,17 +58,15 @@ func _ready() -> void:
 	# 设置组件属性
 	team_comp.team = team
 	
-	# 从游戏配置中获取英雄属性
-	var arena = get_tree().get_first_node_in_group("arena")
-	if arena and "game_balance" in arena:
-		var game_balance = arena.game_balance
-		health_comp.max_health = game_balance.hero_max_health
-		health_comp.current_health = game_balance.hero_max_health
-		combat_comp.attack_range = game_balance.hero_attack_range
-		combat_comp.attack_damage = game_balance.hero_attack_damage
-		combat_comp.attack_speed = game_balance.hero_attack_speed
-		movement_comp.move_speed = game_balance.hero_move_speed
-		respawn_comp.respawn_time = game_balance.hero_respawn_time
+	# 从英雄数据中设置属性
+	health_comp.max_health = hero_data.max_health
+	health_comp.current_health = hero_data.max_health
+	movement_comp.move_speed = hero_data.move_speed
+	respawn_comp.respawn_time = hero_data.respawn_time
+	
+	# 添加技能
+	for skill in hero_data.create_skills():
+		skill_comp.add_skill(skill)
 	
 	# 连接信号
 	health_comp.health_changed.connect(_on_health_changed)
@@ -90,3 +94,8 @@ func _on_died() -> void:
 func move_to(target_position: Vector2) -> void:
 	if movement_comp:
 		movement_comp.move_to(target_position)
+
+# 使用技能
+func cast_skill(skill_name: String, target: Node2D) -> void:
+	if skill_comp:
+		skill_comp.try_cast_skill(skill_name, target)

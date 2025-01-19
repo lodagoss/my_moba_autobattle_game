@@ -31,3 +31,5 @@
 
 --美术设计
 重要节点时，如卡生效、关键物品购买时，放大特效。
+
+@GDD_phase3.md @hero.gd @combat_component.gd @health_component.gd @game_events.gd 请按照GDD_phase3的设计思路，执行技能系统重构、战斗系统重构，包括但不限于：增加skill_component类、增加projectile类、combat_component重构、hero类重构。
